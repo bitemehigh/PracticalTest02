@@ -16,6 +16,8 @@ public class ServerThread extends Thread {
 
     private HashMap<String, Double> data = null;
 
+    public UpdateThread updateThread;
+
     public ServerThread(int port) {
         this.port = port;
         try {
@@ -56,6 +58,9 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         try {
+            updateThread = new UpdateThread(this);
+            updateThread.start();
+
             while (!Thread.currentThread().isInterrupted()) {
                 Log.i(Constants.TAG, "[SERVER THREAD] Waiting for a client invocation...");
                 Socket socket = serverSocket.accept();
